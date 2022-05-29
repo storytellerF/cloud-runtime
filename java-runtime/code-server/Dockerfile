@@ -1,8 +1,8 @@
 FROM ubuntu:latest
 
-ENV http_proxy http://192.168.174.1:10811
-ENV https_proxy https://192.168.174.1:10811
-ENV no_proxy="127.0.0.1,localhost"
+#ENV http_proxy http://192.168.174.1:10811
+#ENV https_proxy https://192.168.174.1:10811
+#ENV no_proxy="127.0.0.1,localhost"
 #code server 版本4.4.0
 
 RUN apt-get update
@@ -32,9 +32,8 @@ RUN tar -xzf code-server-4.4.0-linux-amd64.tar.gz
 
 # 安装java插件包
 WORKDIR /root/
-RUN wget https://marketplace.visualstudio.com/_apis/public/gallery/publishers/vscjava/vsextensions/vscode-java-pack/0.22.2022052400/vspackage
-RUN mv vspackage vscjava.vscode-java-pack-0.22.2022052400.vsix
-RUN /usr/local/code-server-4.4.0-linux-amd64/bin/code-server --install-extension /root/vscjava.vscode-java-pack-0.22.2022052400.vsix
+RUN wget https://open-vsx.org/api/vscjava/vscode-java-pack/0.22.4/file/vscjava.vscode-java-pack-0.22.4.vsix
+RUN /usr/local/code-server-4.4.0-linux-amd64/bin/code-server --install-extension /root/vscjava.vscode-java-pack-0.22.4.vsix
 
 RUN wget https://open-vsx.org/api/redhat/fabric8-analytics/0.3.5/file/redhat.fabric8-analytics-0.3.5.vsix
 RUN /usr/local/code-server-4.4.0-linux-amd64/bin/code-server --install-extension /root/redhat.fabric8-analytics-0.3.5.vsix
