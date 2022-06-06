@@ -1,18 +1,26 @@
 FROM ubuntu:20.04 
-#与default 中的不同，default中的继续go-lang的镜像。
+#与default 中的不同，default中的直接使用go-lang的镜像。
 
-#ADD https://github.com/cdr/code-server/releases/download/v3.10.2/code-server-3.10.2-linux-amd64.tar.gz /usr/local/code-server/
-#WORKDIR /usr/local/code-server/
-#RUN tar -xzf code-server-3.10.2-linux-amd64.tar.gz
+RUN apt-get update
 
-ADD code-server-3.10.2-linux-amd64.tar.gz /usr/local/code-server/
+RUN apt-get upgrade -y
 
-ADD golang.Go-0.26.0.vsix /root/
+RUN apt-get install wget curl -y
 
-ENV code_server /usr/local/code-server/code-server-3.10.2-linux-amd64
+ENV code_server_version=4.4.0
+ENV code_server_flavor=${code_server_version}-linux-arm64
+ENV code_server_executable=/usr/local/code-server-${code_server_flavor}/bin/code-server
+ENV go_version=0.33.1
 
-RUN ${code_server}/bin/code-server --install-extension /root/golang.Go-0.26.0.vsix
+WORKDIR /usr/local/
+RUN wget https://github.com/coder/code-server/releases/download/v${code_server_version}/code-server-${code_server_flavor}.tar.gz
+RUN tar -xzf code-server-${code_server_flavor}.tar.gz
+
+# ADD golang.Go-0.26.0.vsix /root/
+WORKDIR /root/
+RUN wget https://open-vsx.org/api/golang/Go/${go_version}/file/golang.Go-${go_version}.vsix
+RUN ${code_server_executable} --install-extension /root/golang.Go-${go_version}.vsix
 
 EXPOSE 8080
 
-ENTRYPOINT ${code_server}/bin/code-server
+ENTRYPOINT ${code_server_executable}

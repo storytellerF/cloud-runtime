@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
-ENV http_proxy http://192.168.20.1:10809
-ENV https_proxy http://192.168.20.1:10809
+# ENV http_proxy http://192.168.20.1:10809
+# ENV https_proxy http://192.168.20.1:10809
 
 RUN apt-get update
 
