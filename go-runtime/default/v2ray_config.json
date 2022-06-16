@@ -1,0 +1,35 @@
+{
+    "inbounds": [
+      {
+        "port": 1080, 
+        "protocol": "socks", 
+        "sniffing": {
+          "enabled": true,
+          "destOverride": ["http", "tls"]
+        },
+        "settings": {
+          "auth": "noauth"  
+        }
+      }
+    ],
+    "outbounds": [
+      {
+        "protocol": "trojan", 
+        "settings": {
+          "vnext": [
+            {
+              "address": "serveraddr.com", // 服务器地址，请修改为你自己的服务器 IP 或域名
+              "port": 16823,  // 服务器端口
+              "users": [
+                {
+                  "id": "b831381d-6324-4d53-ad4f-8cda48b30811",  // 用户 ID，必须与服务器端配置相同
+                  "alterId": 64 // 此处的值也应当与服务器相同
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+  
