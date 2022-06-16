@@ -5,6 +5,10 @@ FROM ubuntu:latest
 #ENV no_proxy="127.0.0.1,localhost"
 #code server 版本4.4.0
 
+ENV code_server_version=4.4.0
+ENV code_server_flavor=${code_server_version}-linux-arm64
+ENV code_server_executable=/usr/local/code-server-${code_server_flavor}/bin/code-server
+
 RUN apt-get update
 
 RUN apt-get upgrade -y
@@ -24,21 +28,25 @@ RUN ~/.cargo/bin/rustup component add rls --toolchain stable-aarch64-unknown-lin
 
 #code server
 WORKDIR /usr/local/
-RUN wget https://github.com/coder/code-server/releases/download/v4.4.0/code-server-4.4.0-linux-arm64.tar.gz
-RUN tar -xzf code-server-4.4.0-linux-arm64.tar.gz
+RUN wget https://github.com/coder/code-server/releases/download/v${code_server_version}/code-server-${code_server_flavor}.tar.gz
+RUN tar -xzf code-server-${code_server_flavor}.tar.gz
 
 
 # 安装rust插件包
 WORKDIR /root/
-RUN wget https://open-vsx.org/api/pinage404/rust-extension-pack/0.1.0/file/pinage404.rust-extension-pack-0.1.0.vsix
-RUN /usr/local/code-server-4.4.0-linux-arm64/bin/code-server --install-extension /root/pinage404.rust-extension-pack-0.1.0.vsix
+ENV rust_extension_version=0.1.0
+ARG rust_extension_name=pinage404.rust-extension-pack-${rust_extension_version}.vsix
+RUN wget https://open-vsx.org/api/pinage404/rust-extension-pack/${rust_extension_version}/file/${rust_extension_name}
+RUN ${code_server_executable} --install-extension /root/${rust_extension_name}
 
-RUN wget https://open-vsx.org/api/vadimcn/vscode-lldb/1.7.0/file/vadimcn.vscode-lldb-1.7.0.vsix
-RUN /usr/local/code-server-4.4.0-linux-arm64/bin/code-server --install-extension /root/vadimcn.vscode-lldb-1.7.0.vsix
+ENV lldb_extension_version=1.7.0
+ENV lldb_extension_name=vadimcn.vscode-lldb-${lldb_extension_version}.vsix
+RUN wget https://open-vsx.org/api/vadimcn/vscode-lldb/${lldb_extension_version}/file/${lldb_extension_name}
+RUN ${code_server_executable} --install-extension /root/${lldb_extension_name}
 
 
 #暴露端口
 EXPOSE 8080
 
-ENTRYPOINT /usr/local/code-server-4.4.0-linux-arm64/bin/code-server
+ENTRYPOINT ${code_server_executable}
 
