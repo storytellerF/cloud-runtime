@@ -1,0 +1,12 @@
+services:
+  android-dev:
+    build: 
+      context: .
+      dockerfile: default.Dockerfile
+    volumes:
+      - android-dev-storage:/home/
+    ports:
+      - 8081:8080
+
+volumes:
+  android-dev-storage:
