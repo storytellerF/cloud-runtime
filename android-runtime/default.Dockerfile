@@ -26,14 +26,16 @@ RUN ./sdkmanager "platform-tools"
 RUN apt-get update && apt-get install -y libc6-amd64-cross libgcc1-amd64-cross && ln -s /usr/x86_64-linux-gnu/lib64/ /lib64
 ENV LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/lib64:/usr/x86_64-linux-gnu/lib"
 
+ARG code_server_parent=/usr/local
 ARG code_server_version=4.14.1
 ARG code_server_flavor=linux-arm64
 ARG code_server_bin=code-server-${code_server_version}-${code_server_flavor}
-ARG code_server_executable=/usr/local/${code_server_bin}/bin/code-server
+ARG code_server_executable=${code_server_parent}/${code_server_bin}/bin/code-server
 
 #code server
-WORKDIR /usr/local/
+WORKDIR ${code_server_parent}
 RUN wget https://github.com/coder/code-server/releases/download/v${code_server_version}/${code_server_bin}.tar.gz
 RUN tar -xzf ${code_server_bin}.tar.gz
-
-ENTRYPOINT ${code_server_executable}
+COPY start.sh /
+RUN chmod +x /start.sh && echo /usr/local/code-server-4.14.1-linux-arm64/bin/code-server > /start.sh
+ENTRYPOINT /start.sh

@@ -6,7 +6,7 @@ services:
     volumes:
       - android-dev-storage:/home/
     ports:
-      - 8081:8080
+      - 8198:8080
 
 volumes:
   android-dev-storage:
