@@ -1,4 +1,3 @@
-
 #[derive(Debug, Copy, Clone)]
 pub struct Plugin<'a> {
     pub plugin_key: &'a str,
@@ -6,7 +5,25 @@ pub struct Plugin<'a> {
     pub author_name: &'a str,
     pub plugin_version: &'a str,
 }
-pub fn setup_coder(plugins: Vec<Plugin>) -> String {
+pub fn setup_coder(mut plugins: Vec<Plugin>) -> String {
+    plugins.insert(
+        0,
+        Plugin {
+            plugin_key: "git_ignore_plugin",
+            author_name: "codezombiech",
+            plugin_name: "gitignore",
+            plugin_version: "0.9.0",
+        },
+    );
+    plugins.insert(
+        0,
+        Plugin {
+            plugin_key: "git_lens",
+            plugin_name: "gitlens",
+            author_name: "eamodio",
+            plugin_version: "14.0.1",
+        },
+    );
     let v = plugins
         .iter()
         .map(|&x| include_plugin(x))
