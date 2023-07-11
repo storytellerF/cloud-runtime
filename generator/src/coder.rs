@@ -1,6 +1,6 @@
 #[derive(Debug, Copy, Clone)]
 pub struct Plugin<'a> {
-    pub plugin_key: &'a str,
+    pub plugin_key: &'a str,//需要使用下划线作为分隔符
     pub plugin_name: &'a str,
     pub author_name: &'a str,
     pub plugin_version: &'a str,
@@ -37,13 +37,12 @@ ARG code_server_executable=${code_server_parent}/${code_server_bin}/bin/code-ser
 
 #code server
 WORKDIR ${code_server_parent}
-RUN wget https://github.com/coder/code-server/releases/download/v${code_server_version}/${code_server_bin}.tar.gz
+RUN curl -O https://github.com/coder/code-server/releases/download/v${code_server_version}/${code_server_bin}.tar.gz
 RUN tar -xzf ${code_server_bin}.tar.gz
 
 {plugins}
 
-COPY start.sh /
-RUN chmod +x /start.sh && echo /usr/local/code-server-4.14.1-linux-arm64/bin/code-server > /start.sh
+RUN echo /usr/local/code-server-4.14.1-linux-arm64/bin/code-server > /start.sh && chmod +x /start.sh
 ENTRYPOINT /start.sh".replace("{plugins}", &plugin_string);
 }
 
@@ -68,7 +67,7 @@ ARG {plugin_key}_version={plugin_version}
 ARG {plugin_key}_author={author_name}
 ARG {plugin_key}_artifact={plugin_name}
 ARG {plugin_key}_name=${plugin_key}_author.${plugin_key}_artifact-${{plugin_key}_version}.vsix
-RUN wget https://open-vsx.org/api/${plugin_key}_author/${plugin_key}_artifact/${{plugin_key}_version}/file/${plugin_key}_name
+RUN curl -O https://open-vsx.org/api/${plugin_key}_author/${plugin_key}_artifact/${{plugin_key}_version}/file/${plugin_key}_name
 RUN ${code_server_executable} --install-extension /root/${plugin_key}_name
 #安装{plugin_key}结束\n").replace("{plugin_key}", plugin_key).replace("{author_name}", author_name).replace("{plugin_name}", plugin_name).replace("{plugin_version}", plugin_version);
     // let bytes = str.into_bytes();

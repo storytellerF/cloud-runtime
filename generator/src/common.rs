@@ -27,36 +27,36 @@ pub fn file_instance(path: &str) -> File {
 }
 
 pub fn manual_install_jdk() -> &'static [u8] {
-    return "RUN apt-get install wget unzip -y
-    ARG jdkInstallPath=/usr/local
-    ARG jdkDownloadName=OpenJDK16U-jdk_x64_linux_hotspot_16.0.2_7.tar.gz
-    ARG jdkName=jdk-16.0.2+7
-    ARG jdkNameEncoded=jdk-16.0.2%2B7
-    # 下载jdk
-    WORKDIR $jdkInstallPath
-    RUN wget https://github.com/adoptium/temurin16-binaries/releases/download/$jdkNameEncoded/$jdkDownloadName
-    # 解压出来的目录是jdk-16.0.2+7
-    RUN tar -xzf $jdkDownloadName
-    #配置jdk 环境变量
-    ENV JAVA_HOME=$jdkInstallPath/$jdkName".as_bytes();
+    return "
+ARG jdkInstallPath=/usr/local
+ARG jdkDownloadName=OpenJDK16U-jdk_x64_linux_hotspot_16.0.2_7.tar.gz
+ARG jdkName=jdk-16.0.2+7
+ARG jdkNameEncoded=jdk-16.0.2%2B7
+# 下载jdk
+WORKDIR $jdkInstallPath
+RUN curl -O https://github.com/adoptium/temurin16-binaries/releases/download/$jdkNameEncoded/$jdkDownloadName
+# 解压出来的目录是jdk-16.0.2+7
+RUN tar -xzf $jdkDownloadName
+#配置jdk 环境变量
+ENV JAVA_HOME=$jdkInstallPath/$jdkName".as_bytes();
 }
 
 pub fn manual_install_gradle() -> &'static [u8] {
     return "#gradle。如果有疑问可以参考https://gradle.org/install/
-    ARG gradle_version=7.4.2
-    ARG gradleInstallPath=/opt/gradle
-    RUN mkdir $gradleInstallPath
-    WORKDIR $gradleInstallPath
-    RUN wget https://services.gradle.org/distributions/gradle-${gradle_version}-bin.zip
-    RUN unzip -q gradle-${gradle_version}-bin.zip"
+ARG gradle_version=7.4.2
+ARG gradleInstallPath=/opt/gradle
+RUN mkdir $gradleInstallPath
+WORKDIR $gradleInstallPath
+RUN curl -O https://services.gradle.org/distributions/gradle-${gradle_version}-bin.zip
+RUN unzip -q gradle-${gradle_version}-bin.zip"
         .as_bytes();
 }
 
 pub fn manual_install_maven() -> &'static [u8] {
     return "ARG maven_version=3.8.5
-    ARG mavenInstallPath=/opt/maven
-    RUN mkdir $mavenInstallPath
-    WORKDIR $mavenInstallPath
-    RUN wget https://dlcdn.apache.org/maven/maven-3/${maven_version}/binaries/apache-maven-${maven_version}-bin.tar.gz
-    RUN tar -xzf apache-maven-${maven_version}-bin.tar.gz".as_bytes();
+ARG mavenInstallPath=/opt/maven
+RUN mkdir $mavenInstallPath
+WORKDIR $mavenInstallPath
+RUN curl -O https://dlcdn.apache.org/maven/maven-3/${maven_version}/binaries/apache-maven-${maven_version}-bin.tar.gz
+RUN tar -xzf apache-maven-${maven_version}-bin.tar.gz".as_bytes();
 }
