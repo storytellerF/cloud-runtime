@@ -1,0 +1,12 @@
+services:
+  go-dev:
+    build: 
+      context: .
+      dockerfile: code-server-based/Dockerfile
+    volumes:
+      - go-dev-storage:/home/
+    ports:
+      - 8200:8080
+
+volumes:
+  go-dev-storage:

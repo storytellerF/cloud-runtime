@@ -1,0 +1,12 @@
+services:
+  rust-dev:
+    build: 
+      context: .
+      dockerfile: code-server-based/Dockerfile
+    volumes:
+      - rust-dev-storage:/home/
+    ports:
+      - 8202:8080
+
+volumes:
+  rust-dev-storage:
