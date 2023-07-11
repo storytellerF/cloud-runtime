@@ -1,9 +1,8 @@
 FROM ubuntu:latest
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y wget curl unzip git openjdk-17-jdk vim 
-
+RUN apt-get update && apt-get upgrade -y && apt-get install -y curl git vim openjdk-17-jdk unzip
 ARG sdkName=android-sdk
-ARG homeDir="/root"
+ARG homeDir=/root
 ARG unzipName=cmdline-tools
 ARG latestDir=latest
 ARG name
@@ -20,7 +19,7 @@ WORKDIR ${homeDir}/${sdkName}/${unzipName}/$latestDir/bin
 RUN ls
 RUN yes | ./sdkmanager --licenses
 #仅安装platfo-tools，不安装build-tools，这个在编译项目的时候会自动下载，具体下载的版本由Android 自动选择。
-RUN ./sdkmanager "platform-tools"
+RUN ./sdkmanager platform-tools
 
 # Install libs so Android's AAPT2 will run on an arm64 arch
 RUN apt-get update && apt-get install -y libc6-amd64-cross libgcc1-amd64-cross && ln -s /usr/x86_64-linux-gnu/lib64/ /lib64
@@ -36,6 +35,9 @@ ARG code_server_executable=${code_server_parent}/${code_server_bin}/bin/code-ser
 WORKDIR ${code_server_parent}
 RUN wget https://github.com/coder/code-server/releases/download/v${code_server_version}/${code_server_bin}.tar.gz
 RUN tar -xzf ${code_server_bin}.tar.gz
+
+
+
 COPY start.sh /
 RUN chmod +x /start.sh && echo /usr/local/code-server-4.14.1-linux-arm64/bin/code-server > /start.sh
 ENTRYPOINT /start.sh

@@ -2,7 +2,7 @@ services:
   android-dev:
     build: 
       context: .
-      dockerfile: default.Dockerfile
+      dockerfile: code-server-based/Dockerfile
     volumes:
       - android-dev-storage:/home/
     ports:

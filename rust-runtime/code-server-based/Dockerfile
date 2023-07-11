@@ -1,6 +1,10 @@
 FROM ubuntu:latest
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y curl git vim build-essential
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+RUN source ~/.cargo/env
+
+
 ARG code_server_parent=/usr/local
 ARG code_server_version=4.14.1
 ARG code_server_flavor=linux-arm64
@@ -12,15 +16,15 @@ WORKDIR ${code_server_parent}
 RUN wget https://github.com/coder/code-server/releases/download/v${code_server_version}/${code_server_bin}.tar.gz
 RUN tar -xzf ${code_server_bin}.tar.gz
 
-#安装code_runner
+#安装extension-pack
 WORKDIR /root/
-ARG code_runner_version=0.11.7
-ARG code_runner_author=formulahendry
-ARG code_runner_artifact=code-runner
-ARG code_runner_name=$code_runner_author.$code_runner_artifact-${code_runner_version}.vsix
-RUN wget https://open-vsx.org/api/$code_runner_author/$code_runner_artifact/${code_runner_version}/file/$code_runner_name
-RUN ${code_server_executable} --install-extension /root/$code_runner_name
-#安装code_runner结束
+ARG extension-pack_version=0.1.0
+ARG extension-pack_author=pinage404
+ARG extension-pack_artifact=rust-extension-pack
+ARG extension-pack_name=$extension-pack_author.$extension-pack_artifact-${extension-pack_version}.vsix
+RUN wget https://open-vsx.org/api/$extension-pack_author/$extension-pack_artifact/${extension-pack_version}/file/$extension-pack_name
+RUN ${code_server_executable} --install-extension /root/$extension-pack_name
+#安装extension-pack结束
 
 
 COPY start.sh /
