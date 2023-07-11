@@ -1,6 +1,4 @@
 
-use std::io::Write;
-
 #[derive(Debug, Copy, Clone)]
 pub struct Plugin<'a> {
     pub plugin_key: &'a str,
@@ -8,10 +6,13 @@ pub struct Plugin<'a> {
     pub author_name: &'a str,
     pub plugin_version: &'a str,
 }
-pub fn setup_coder(mut file: std::fs::File, plugins: Vec<Plugin>) {
-    let v = plugins.iter().map(|&x| include_plugin(x)).collect::<Vec<_>>();
+pub fn setup_coder(plugins: Vec<Plugin>) -> String {
+    let v = plugins
+        .iter()
+        .map(|&x| include_plugin(x))
+        .collect::<Vec<_>>();
     let plugin_string = v.join("\n");
-    file.write_all("\nARG code_server_parent=/usr/local
+    return "\nARG code_server_parent=/usr/local
 ARG code_server_version=4.14.1
 ARG code_server_flavor=linux-arm64
 ARG code_server_bin=code-server-${code_server_version}-${code_server_flavor}
@@ -26,14 +27,24 @@ RUN tar -xzf ${code_server_bin}.tar.gz
 
 COPY start.sh /
 RUN chmod +x /start.sh && echo /usr/local/code-server-4.14.1-linux-arm64/bin/code-server > /start.sh
-ENTRYPOINT /start.sh".replace("{plugins}", &plugin_string).as_bytes()).expect("write failed");
+ENTRYPOINT /start.sh".replace("{plugins}", &plugin_string);
 }
 
-pub fn include_plugin(plugin: Plugin)  -> String {
-    return install_plugin(plugin.plugin_key, plugin.author_name, plugin.plugin_name, plugin.plugin_version)
+pub fn include_plugin(plugin: Plugin) -> String {
+    return install_plugin(
+        plugin.plugin_key,
+        plugin.author_name,
+        plugin.plugin_name,
+        plugin.plugin_version,
+    );
 }
 
-pub fn install_plugin(plugin_key: &str, author_name: &str, plugin_name: &str, plugin_version: &str) -> String {
+pub fn install_plugin(
+    plugin_key: &str,
+    author_name: &str,
+    plugin_name: &str,
+    plugin_version: &str,
+) -> String {
     let str = String::from("#安装{plugin_key}
 WORKDIR /root/
 ARG {plugin_key}_version={plugin_version}

@@ -6,6 +6,7 @@ mod rust;
 mod android;
 mod python;
 mod go;
+mod java;
 
 fn main() {
     tang::write();
@@ -14,6 +15,7 @@ fn main() {
     android::write();
     python::write();
     go::write();
+    java::write();
     println!("data written to file");
 }
 

@@ -7,7 +7,7 @@ mod coder;
 mod common;
 
 pub fn write() {
-    let mut file = common::fileInstance("../android-runtime/code-server-based/Dockerfile");
+    let mut file = common::file_instance("../android-runtime/code-server-based/Dockerfile");
     file.write_all(common::ubuntu(vec!["openjdk-17-jdk", "unzip"])).expect("write failed");
     file.write_all(
         "
@@ -37,5 +37,5 @@ ENV LD_LIBRARY_PATH=\"$LD_LIBRARY_PATH:/lib64:/usr/x86_64-linux-gnu/lib\"\n"
             .as_bytes(),
     )
     .expect("write failed");
-    coder::setup_coder(file, vec![]);
+    file.write_all(coder::setup_coder(vec![]).as_bytes()).expect("write failed");
 }
