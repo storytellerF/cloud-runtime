@@ -1,6 +1,7 @@
 FROM ubuntu:latest
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y curl git vim unzip
+RUN apt-get update && apt-get upgrade -y && apt-get install -y curl git vim
+RUN apt-get install -y unzip
 ARG jdkInstallPath=/usr/local
 ARG jdkDownloadName=OpenJDK16U-jdk_x64_linux_hotspot_16.0.2_7.tar.gz
 ARG jdkName=jdk-16.0.2+7

@@ -1,6 +1,7 @@
 FROM ubuntu:latest
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y curl git vim 
+RUN apt-get update && apt-get upgrade -y && apt-get install -y curl git vim
+RUN apt-get install -y 
 ARG code_server_parent=/usr/local
 ARG code_server_version=4.14.1
 ARG code_server_flavor=linux-arm64

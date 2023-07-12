@@ -8,7 +8,7 @@ pub fn ubuntu(extra: Vec<&str>) -> &[u8] {
     let base = String::from(
         "FROM ubuntu:latest
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y curl git vim ",
+RUN apt-get update && apt-get upgrade -y && apt-get install -y curl git vim\nRUN apt-get install -y ",
     ) + &extras;
     let bytes = base.into_bytes();
     return Box::leak(bytes.into_boxed_slice());

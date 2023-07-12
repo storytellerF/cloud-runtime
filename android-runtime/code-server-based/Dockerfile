@@ -1,6 +1,7 @@
 FROM ubuntu:latest
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y curl git vim openjdk-17-jdk unzip
+RUN apt-get update && apt-get upgrade -y && apt-get install -y curl git vim
+RUN apt-get install -y openjdk-17-jdk unzip
 ARG sdkName=android-sdk
 ARG homeDir=/root
 ARG unzipName=cmdline-tools
