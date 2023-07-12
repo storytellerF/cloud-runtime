@@ -34,7 +34,7 @@ ARG jdkName=jdk-16.0.2+7
 ARG jdkNameEncoded=jdk-16.0.2%2B7
 # 下载jdk
 WORKDIR $jdkInstallPath
-RUN curl -O https://github.com/adoptium/temurin16-binaries/releases/download/$jdkNameEncoded/$jdkDownloadName
+RUN curl -LO https://github.com/adoptium/temurin16-binaries/releases/download/$jdkNameEncoded/$jdkDownloadName
 # 解压出来的目录是jdk-16.0.2+7
 RUN tar -xzf $jdkDownloadName
 #配置jdk 环境变量
@@ -47,7 +47,7 @@ ARG gradle_version=7.4.2
 ARG gradleInstallPath=/opt/gradle
 RUN mkdir $gradleInstallPath
 WORKDIR $gradleInstallPath
-RUN curl -O https://services.gradle.org/distributions/gradle-${gradle_version}-bin.zip
+RUN curl -LO https://services.gradle.org/distributions/gradle-${gradle_version}-bin.zip
 RUN unzip -q gradle-${gradle_version}-bin.zip"
         .as_bytes();
 }
@@ -57,6 +57,6 @@ pub fn manual_install_maven() -> &'static [u8] {
 ARG mavenInstallPath=/opt/maven
 RUN mkdir $mavenInstallPath
 WORKDIR $mavenInstallPath
-RUN curl -O https://dlcdn.apache.org/maven/maven-3/${maven_version}/binaries/apache-maven-${maven_version}-bin.tar.gz
+RUN curl -LO https://dlcdn.apache.org/maven/maven-3/${maven_version}/binaries/apache-maven-${maven_version}-bin.tar.gz
 RUN tar -xzf apache-maven-${maven_version}-bin.tar.gz".as_bytes();
 }

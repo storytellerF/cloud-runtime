@@ -9,8 +9,28 @@ ARG code_server_executable=${code_server_parent}/${code_server_bin}/bin/code-ser
 
 #code server
 WORKDIR ${code_server_parent}
-RUN wget https://github.com/coder/code-server/releases/download/v${code_server_version}/${code_server_bin}.tar.gz
+RUN curl -LO https://github.com/coder/code-server/releases/download/v${code_server_version}/${code_server_bin}.tar.gz
 RUN tar -xzf ${code_server_bin}.tar.gz
+
+#安装git_lens
+WORKDIR /root/
+ARG git_lens_version=14.0.1
+ARG git_lens_author=eamodio
+ARG git_lens_artifact=gitlens
+ARG git_lens_name=$git_lens_author.$git_lens_artifact-${git_lens_version}.vsix
+RUN curl -LO https://open-vsx.org/api/$git_lens_author/$git_lens_artifact/${git_lens_version}/file/$git_lens_name
+RUN ${code_server_executable} --install-extension /root/$git_lens_name
+#安装git_lens结束
+
+#安装git_ignore_plugin
+WORKDIR /root/
+ARG git_ignore_plugin_version=0.9.0
+ARG git_ignore_plugin_author=codezombiech
+ARG git_ignore_plugin_artifact=gitignore
+ARG git_ignore_plugin_name=$git_ignore_plugin_author.$git_ignore_plugin_artifact-${git_ignore_plugin_version}.vsix
+RUN curl -LO https://open-vsx.org/api/$git_ignore_plugin_author/$git_ignore_plugin_artifact/${git_ignore_plugin_version}/file/$git_ignore_plugin_name
+RUN ${code_server_executable} --install-extension /root/$git_ignore_plugin_name
+#安装git_ignore_plugin结束
 
 #安装code_runner
 WORKDIR /root/
@@ -18,11 +38,10 @@ ARG code_runner_version=0.11.7
 ARG code_runner_author=formulahendry
 ARG code_runner_artifact=code-runner
 ARG code_runner_name=$code_runner_author.$code_runner_artifact-${code_runner_version}.vsix
-RUN wget https://open-vsx.org/api/$code_runner_author/$code_runner_artifact/${code_runner_version}/file/$code_runner_name
+RUN curl -LO https://open-vsx.org/api/$code_runner_author/$code_runner_artifact/${code_runner_version}/file/$code_runner_name
 RUN ${code_server_executable} --install-extension /root/$code_runner_name
 #安装code_runner结束
 
 
-COPY start.sh /
-RUN chmod +x /start.sh && echo /usr/local/code-server-4.14.1-linux-arm64/bin/code-server > /start.sh
+RUN echo /usr/local/code-server-4.14.1-linux-arm64/bin/code-server > /start.sh && chmod +x /start.sh
 ENTRYPOINT /start.sh
