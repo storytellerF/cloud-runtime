@@ -4,10 +4,16 @@ use std::{
 };
 
 pub fn ubuntu(extra: Vec<&str>) -> &[u8] {
+
     let extras = extra.join(" ");
     let base = String::from(
         "FROM ubuntu:latest
-
+RUN apt-get update && apt-get -y install ca-certificates
+ARG sourcesRaw=sources.list.prefer
+COPY ./$sourcesRaw /etc/apt/$sourcesRaw
+WORKDIR /etc/apt
+RUN mv sources.list sources.list.backup
+RUN cp $sourcesRaw sources.list
 RUN apt-get update && apt-get upgrade -y && apt-get install -y curl git vim\nRUN apt-get install -y ",
     ) + &extras;
     let bytes = base.into_bytes();

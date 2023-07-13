@@ -4,6 +4,7 @@ use std::io::Write;
 mod coder;
 #[path = "common.rs"]
 mod common;
+//cargo clippy rust-docs rust-std rustc
 
 pub fn write() {
     let mut file = common::file_instance("../rust-runtime/code-server-based/Dockerfile");

@@ -42,7 +42,7 @@ RUN tar -xzf ${code_server_bin}.tar.gz
 
 {plugins}
 
-RUN echo /usr/local/code-server-4.14.1-linux-arm64/bin/code-server > /start.sh && chmod +x /start.sh
+RUN echo $code_server_executable --bind-addr 0.0.0.0:8080 > /start.sh && chmod +x /start.sh
 ENTRYPOINT /start.sh".replace("{plugins}", &plugin_string);
 }
 

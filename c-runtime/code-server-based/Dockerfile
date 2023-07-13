@@ -1,5 +1,10 @@
 FROM ubuntu:latest
-
+RUN apt-get update && apt-get -y install ca-certificates
+ARG sourcesRaw=sources.list.prefer
+COPY ./$sourcesRaw /etc/apt/$sourcesRaw
+WORKDIR /etc/apt
+RUN mv sources.list sources.list.backup
+RUN cp $sourcesRaw sources.list
 RUN apt-get update && apt-get upgrade -y && apt-get install -y curl git vim
 RUN apt-get install -y build-essential
 ARG code_server_parent=/usr/local
@@ -44,5 +49,5 @@ RUN ${code_server_executable} --install-extension /root/$code_runner_name
 #安装code_runner结束
 
 
-RUN echo /usr/local/code-server-4.14.1-linux-arm64/bin/code-server > /start.sh && chmod +x /start.sh
+RUN echo $code_server_executable --bind-addr 0.0.0.0:8080 > /start.sh && chmod +x /start.sh
 ENTRYPOINT /start.sh

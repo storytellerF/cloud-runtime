@@ -1,12 +1,13 @@
 services:
   rust-dev:
     build: 
-      context: .
-      dockerfile: code-server-based/Dockerfile
+      context: ..
+      dockerfile: rust-runtime/code-server-based/Dockerfile
     volumes:
       - rust-dev-storage:/home/
     ports:
       - 8202:8080
+    command: --bind-addr 0.0.0.0:8080
 
 volumes:
   rust-dev-storage:
