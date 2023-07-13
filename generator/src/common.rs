@@ -4,7 +4,6 @@ use std::{
 };
 
 pub fn ubuntu(extra: Vec<&str>) -> &[u8] {
-
     let extras = extra.join(" ");
     let base = String::from(
         "FROM ubuntu:latest

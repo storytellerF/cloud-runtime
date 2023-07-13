@@ -1,6 +1,6 @@
 #[derive(Debug, Copy, Clone)]
 pub struct Plugin<'a> {
-    pub plugin_key: &'a str,//需要使用下划线作为分隔符
+    pub plugin_key: &'a str, //需要使用下划线作为分隔符
     pub plugin_name: &'a str,
     pub author_name: &'a str,
     pub plugin_version: &'a str,

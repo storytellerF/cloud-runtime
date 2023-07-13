@@ -20,5 +20,6 @@ RUN rustup component add llvm-tools-preview\n"
             .as_bytes(),
     )
     .expect("write failed");
-    file.write_all(coder::setup_coder(vec![]).as_bytes()).expect("write failed");
+    file.write_all(coder::setup_coder(vec![]).as_bytes())
+        .expect("write failed");
 }

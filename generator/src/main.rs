@@ -1,12 +1,10 @@
-mod tang;
-mod coder;
-mod common;
-mod c;
-mod rust;
 mod android;
-mod python;
+mod c;
 mod go;
 mod java;
+mod python;
+mod rust;
+mod tang;
 
 fn main() {
     tang::write();
@@ -18,5 +16,3 @@ fn main() {
     java::write();
     println!("data written to file");
 }
-
-
