@@ -1,10 +1,12 @@
 FROM ubuntu:latest
 RUN apt-get update && apt-get -y install ca-certificates
 ARG sourcesRaw=sources.list.prefer
-COPY ./$sourcesRaw /etc/apt/$sourcesRaw
+COPY ./${sourcesRaw}.a /etc/apt/${sourcesRaw}.a
+COPY ./${sourcesRaw}.x /etc/apt/${sourcesRaw}.x
+
 WORKDIR /etc/apt
 RUN mv sources.list sources.list.backup
-RUN cp $sourcesRaw sources.list
+RUN cp ${sourcesRaw}.$(uname -m | cut -c1) sources.list
 RUN apt-get update && apt-get upgrade -y && apt-get install -y curl git vim
 RUN apt-get install -y 
 ARG code_server_parent=/usr/local
