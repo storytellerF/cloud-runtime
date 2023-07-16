@@ -29,16 +29,20 @@ pub fn setup_coder(mut plugins: Vec<Plugin>) -> String {
         .map(|&x| include_plugin(x))
         .collect::<Vec<_>>();
     let plugin_string = v.join("\n");
-    return "\nARG code_server_parent=/usr/local
+    return "ARG code_server_parent=/usr/local
 ARG code_server_version=4.14.1
 ARG code_server_flavor=linux-arm64
-ARG code_server_bin=code-server-${code_server_version}-${code_server_flavor}
-ARG code_server_executable=${code_server_parent}/${code_server_bin}/bin/code-server
+ARG code_server_pack_name=code-server-${code_server_version}-${code_server_flavor}
+ARG code_server_sub_path=bin/code-server
+#ARG code_server_executable=${code_server_parent}/${code_server_pack_name}/${code_server_sub_path}
+ARG code_server_executable=/usr/${code_server_sub_path}
 
 #code server
-WORKDIR ${code_server_parent}
-RUN curl -LO https://github.com/coder/code-server/releases/download/v${code_server_version}/${code_server_bin}.tar.gz
-RUN tar -xzf ${code_server_bin}.tar.gz
+#WORKDIR ${code_server_parent}
+#RUN curl -LO https://github.com/coder/code-server/releases/download/v${code_server_version}/${code_server_pack_name}.tar.gz
+#RUN tar -xzf ${code_server_pack_name}.tar.gz
+
+RUN curl -fsSL https://code-server.dev/install.sh | sh 
 
 {plugins}
 
