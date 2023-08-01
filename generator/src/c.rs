@@ -5,7 +5,9 @@ mod coder;
 #[path = "common.rs"]
 mod common;
 
-pub fn write() {
+use crate::versions;
+
+pub fn write(config: versions::Config) {
     let mut file = common::file_instance("../c-runtime/code-server-based/Dockerfile");
     file.write_all(common::ubuntu(vec!["build-essential"]))
         .expect("write failed");
@@ -15,7 +17,7 @@ pub fn write() {
             plugin_key: "code_runner",
             author_name: "formulahendry",
             plugin_name: "code-runner",
-            plugin_version: "0.11.7",
+            plugin_version: &config.versions.code_runner,
         }])
         .as_bytes(),
     )

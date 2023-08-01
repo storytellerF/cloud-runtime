@@ -8,17 +8,20 @@ WORKDIR /etc/apt
 RUN mv sources.list sources.list.backup
 RUN cp ${sourcesRaw}.$(uname -m | cut -c1) sources.list
 RUN apt-get update && apt-get upgrade -y && apt-get install -y curl git vim
-RUN apt-get install -y build-essential
-ARG code_server_parent=/usr/local
+RUN apt-get install -y build-essentialARG code_server_parent=/usr/local
 ARG code_server_version=4.14.1
 ARG code_server_flavor=linux-arm64
-ARG code_server_bin=code-server-${code_server_version}-${code_server_flavor}
-ARG code_server_executable=${code_server_parent}/${code_server_bin}/bin/code-server
+ARG code_server_pack_name=code-server-${code_server_version}-${code_server_flavor}
+ARG code_server_sub_path=bin/code-server
+#ARG code_server_executable=${code_server_parent}/${code_server_pack_name}/${code_server_sub_path}
+ARG code_server_executable=/usr/${code_server_sub_path}
 
 #code server
-WORKDIR ${code_server_parent}
-RUN curl -LO https://github.com/coder/code-server/releases/download/v${code_server_version}/${code_server_bin}.tar.gz
-RUN tar -xzf ${code_server_bin}.tar.gz
+#WORKDIR ${code_server_parent}
+#RUN curl -LO https://github.com/coder/code-server/releases/download/v${code_server_version}/${code_server_pack_name}.tar.gz
+#RUN tar -xzf ${code_server_pack_name}.tar.gz
+
+RUN curl -fsSL https://code-server.dev/install.sh | sh 
 
 #安装git_lens
 WORKDIR /root/
