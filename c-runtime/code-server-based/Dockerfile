@@ -45,7 +45,7 @@ RUN ${code_server_executable} --install-extension /root/$git_ignore_plugin_name
 
 #安装code_runner
 WORKDIR /root/
-ARG code_runner_version=0.11.7
+ARG code_runner_version=0.12.0
 ARG code_runner_author=formulahendry
 ARG code_runner_artifact=code-runner
 ARG code_runner_name=$code_runner_author.$code_runner_artifact-${code_runner_version}.vsix
