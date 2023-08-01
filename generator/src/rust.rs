@@ -5,8 +5,10 @@ mod coder;
 #[path = "common.rs"]
 mod common;
 //cargo clippy rust-docs rust-std rustc
+use crate::versions;
 
-pub fn write() {
+
+pub fn write(config: &versions::Config) {
     let mut file = common::file_instance("../rust-runtime/code-server-based/Dockerfile");
     file.write_all(common::ubuntu(vec!["build-essential"]))
         .expect("write failed");
@@ -24,8 +26,8 @@ RUN . ~/.cargo/env
             plugin_key: "extension_pack",
             author_name: "pinage404",
             plugin_name: "rust-extension-pack",
-            plugin_version: "0.1.0",
-        }])
+            plugin_version: &config.versions.rust_pack,
+        }], config)
         .as_bytes(),
     )
     .expect("write failed");

@@ -1,2 +1,10 @@
 [versions]
 code_runner="0.12.0"
+git_lens="14.0.1"
+git_ignore="0.9.0"
+go_lang="0.26.0"
+redhat_xml="0.20.0"
+redhat_analytics="0.3.5"
+java_pack="0.22.4"
+vsc_python="2022.6.3"
+rust_pack="0.1.0"

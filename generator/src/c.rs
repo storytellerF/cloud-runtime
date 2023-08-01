@@ -7,7 +7,7 @@ mod common;
 
 use crate::versions;
 
-pub fn write(config: versions::Config) {
+pub fn write(config: &versions::Config) {
     let mut file = common::file_instance("../c-runtime/code-server-based/Dockerfile");
     file.write_all(common::ubuntu(vec!["build-essential"]))
         .expect("write failed");
@@ -18,7 +18,7 @@ pub fn write(config: versions::Config) {
             author_name: "formulahendry",
             plugin_name: "code-runner",
             plugin_version: &config.versions.code_runner,
-        }])
+        }], config)
         .as_bytes(),
     )
     .expect("write failed");

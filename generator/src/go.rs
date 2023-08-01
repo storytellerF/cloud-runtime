@@ -5,7 +5,9 @@ mod coder;
 #[path = "common.rs"]
 mod common;
 
-pub fn write() {
+use crate::versions;
+
+pub fn write(config: &versions::Config) {
     let mut file = common::file_instance("../go-runtime/code-server-based/Dockerfile");
     file.write_all(common::ubuntu(vec![]))
         .expect("write failed");
@@ -15,8 +17,8 @@ pub fn write() {
             plugin_key: "go_lang",
             author_name: "golang",
             plugin_name: "Go",
-            plugin_version: "0.26.0",
-        }])
+            plugin_version: &config.versions.go_lang,
+        }], config)
         .as_bytes(),
     )
     .expect("write failed");

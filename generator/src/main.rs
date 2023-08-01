@@ -16,12 +16,12 @@ fn main() {
     file.read_to_string(&mut contents).expect("read file failed");
     let config: versions::Config = toml::from_str(&contents).expect("parse failed");
 
-    tang::write();
-    c::write(config);
-    rust::write();
-    android::write();
-    python::write();
-    go::write();
-    java::write();
+    tang::write(&config);
+    c::write(&config);
+    rust::write(&config);
+    android::write(&config);
+    python::write(&config);
+    go::write(&config);
+    java::write(&config);
     println!("data written to file");
 }

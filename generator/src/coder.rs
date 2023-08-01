@@ -1,3 +1,5 @@
+use crate::versions;
+
 #[derive(Debug, Copy, Clone)]
 pub struct Plugin<'a> {
     pub plugin_key: &'a str, //需要使用下划线作为分隔符
@@ -5,14 +7,14 @@ pub struct Plugin<'a> {
     pub author_name: &'a str,
     pub plugin_version: &'a str,
 }
-pub fn setup_coder(mut plugins: Vec<Plugin>) -> String {
+pub fn setup_coder<'a,'b>(mut plugins: Vec<Plugin<'b>>, config: &'b versions::Config) -> String {
     plugins.insert(
         0,
         Plugin {
             plugin_key: "git_ignore_plugin",
             author_name: "codezombiech",
             plugin_name: "gitignore",
-            plugin_version: "0.9.0",
+            plugin_version: &config.versions.git_ignore,
         },
     );
     plugins.insert(
@@ -21,7 +23,7 @@ pub fn setup_coder(mut plugins: Vec<Plugin>) -> String {
             plugin_key: "git_lens",
             plugin_name: "gitlens",
             author_name: "eamodio",
-            plugin_version: "14.0.1",
+            plugin_version: &config.versions.git_lens,
         },
     );
     let v = plugins
