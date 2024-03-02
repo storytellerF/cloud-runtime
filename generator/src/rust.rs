@@ -16,7 +16,7 @@ pub fn write(config: &versions::Config) {
         "
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 RUN . ~/.cargo/env
-\n"
+"
         .as_bytes(),
     )
     .expect("write failed");

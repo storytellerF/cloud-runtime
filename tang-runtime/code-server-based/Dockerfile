@@ -9,12 +9,14 @@ RUN mv sources.list sources.list.backup
 RUN cp ${sourcesRaw}.$(uname -m | cut -c1) sources.list
 RUN apt-get update && apt-get upgrade -y && apt-get install -y curl git vim
 RUN apt-get install -y build-essential
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-RUN source ~/.cargo/env
-RUN rustup override add nightly
-RUN rustup component add rust-src
-RUN cargo install bootimage
-RUN rustup component add llvm-tools-preview
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+RUN . $HOME/.cargo/env
+RUN . $HOME/.cargo/env \
+    && rustup override add nightly \
+    && rustup component add rust-src \
+    && cargo install bootimage \
+    && rustup component add llvm-tools-preview
+
 ARG code_server_parent=/usr/local
 ARG code_server_version=4.14.1
 ARG code_server_flavor=linux-arm64

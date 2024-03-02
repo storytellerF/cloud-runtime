@@ -24,7 +24,8 @@ ARG mavenInstallPath=/opt/maven
 RUN mkdir $mavenInstallPath
 WORKDIR $mavenInstallPath
 RUN curl -LO https://dlcdn.apache.org/maven/maven-3/${maven_version}/binaries/apache-maven-${maven_version}-bin.tar.gz
-RUN tar -xzf apache-maven-${maven_version}-bin.tar.gzARG code_server_parent=/usr/local
+RUN tar -xzf apache-maven-${maven_version}-bin.tar.gz
+ARG code_server_parent=/usr/local
 ARG code_server_version=4.14.1
 ARG code_server_flavor=linux-arm64
 ARG code_server_pack_name=code-server-${code_server_version}-${code_server_flavor}

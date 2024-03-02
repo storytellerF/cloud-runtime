@@ -1,8 +1,8 @@
 services:
   tang-dev:
     build: 
-      context: .
-      dockerfile: code-server-based/Dockerfile
+      context: ../context
+      dockerfile: ../tang-runtime/code-server-based/Dockerfile
     volumes:
       - tang-dev-storage:/home/
     ports:

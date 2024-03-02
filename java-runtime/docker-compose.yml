@@ -1,0 +1,12 @@
+services:
+  go-dev:
+    build: 
+      context: ../context
+      dockerfile: ../java-runtime/code-server-based/gradle.Dockerfile
+    volumes:
+      - java-dev-storage:/home/
+    ports:
+      - 8201:8080
+
+volumes:
+  java-dev-storage:

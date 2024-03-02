@@ -22,7 +22,7 @@ ENV ANDROID_HOME=$homeDir/${sdkName}/
 
 WORKDIR $homeDir
 ARG zipName=commandlinetools-linux-9477386_latest.zip
-RUN wget https://dl.google.com/android/repository/${zipName}
+RUN curl -LO https://dl.google.com/android/repository/${zipName}
 RUN unzip -q $zipName -d $sdkName
 
 WORKDIR ${homeDir}/${sdkName}/${unzipName}

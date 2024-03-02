@@ -25,7 +25,8 @@ ARG gradleInstallPath=/opt/gradle
 RUN mkdir $gradleInstallPath
 WORKDIR $gradleInstallPath
 RUN curl -LO https://services.gradle.org/distributions/gradle-${gradle_version}-bin.zip
-RUN unzip -q gradle-${gradle_version}-bin.zipARG code_server_parent=/usr/local
+RUN unzip -q gradle-${gradle_version}-bin.zip
+ARG code_server_parent=/usr/local
 ARG code_server_version=4.14.1
 ARG code_server_flavor=linux-arm64
 ARG code_server_pack_name=code-server-${code_server_version}-${code_server_flavor}

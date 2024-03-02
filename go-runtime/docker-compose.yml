@@ -1,8 +1,8 @@
 services:
   go-dev:
     build: 
-      context: .
-      dockerfile: code-server-based/Dockerfile
+      context: ../context
+      dockerfile: ../go-runtime/code-server-based/Dockerfile
     volumes:
       - go-dev-storage:/home/
     ports:

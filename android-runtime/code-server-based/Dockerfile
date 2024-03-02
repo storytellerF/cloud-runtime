@@ -18,7 +18,7 @@ ENV ANDROID_HOME=$homeDir/${sdkName}/
 
 WORKDIR $homeDir
 ARG zipName=commandlinetools-linux-9477386_latest.zip
-RUN wget https://dl.google.com/android/repository/${zipName}
+RUN curl -LO https://dl.google.com/android/repository/${zipName}
 RUN unzip -q $zipName -d $sdkName
 
 WORKDIR ${homeDir}/${sdkName}/${unzipName}
@@ -32,6 +32,7 @@ RUN ./sdkmanager platform-tools
 # Install libs so Android's AAPT2 will run on an arm64 arch
 RUN apt-get update && apt-get install -y libc6-amd64-cross libgcc1-amd64-cross && ln -s /usr/x86_64-linux-gnu/lib64/ /lib64
 ENV LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/lib64:/usr/x86_64-linux-gnu/lib"
+
 ARG code_server_parent=/usr/local
 ARG code_server_version=4.14.1
 ARG code_server_flavor=linux-arm64

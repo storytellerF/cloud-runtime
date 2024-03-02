@@ -31,7 +31,8 @@ pub fn setup_coder<'a,'b>(mut plugins: Vec<Plugin<'b>>, config: &'b versions::Co
         .map(|&x| include_plugin(x))
         .collect::<Vec<_>>();
     let plugin_string = v.join("\n");
-    return "ARG code_server_parent=/usr/local
+    return "
+ARG code_server_parent=/usr/local
 ARG code_server_version=4.14.1
 ARG code_server_flavor=linux-arm64
 ARG code_server_pack_name=code-server-${code_server_version}-${code_server_flavor}

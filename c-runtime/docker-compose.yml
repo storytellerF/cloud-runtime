@@ -1,8 +1,8 @@
 services:
   c-dev:
     build: 
-      context: .
-      dockerfile: code-server-based/Dockerfile
+      context: ../context
+      dockerfile: ../c-runtime/code-server-based/Dockerfile
     volumes:
       - c-dev-storage:/home/
     ports:

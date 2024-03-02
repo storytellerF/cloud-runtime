@@ -1,8 +1,8 @@
 services:
   android-dev:
     build: 
-      context: .
-      dockerfile: code-server-based/Dockerfile
+      context: ../context
+      dockerfile: ../android-runtime/code-server-based/Dockerfile
     volumes:
       - android-dev-storage:/home/
     ports:

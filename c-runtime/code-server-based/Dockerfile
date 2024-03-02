@@ -8,7 +8,8 @@ WORKDIR /etc/apt
 RUN mv sources.list sources.list.backup
 RUN cp ${sourcesRaw}.$(uname -m | cut -c1) sources.list
 RUN apt-get update && apt-get upgrade -y && apt-get install -y curl git vim
-RUN apt-get install -y build-essentialARG code_server_parent=/usr/local
+RUN apt-get install -y build-essential
+ARG code_server_parent=/usr/local
 ARG code_server_version=4.14.1
 ARG code_server_flavor=linux-arm64
 ARG code_server_pack_name=code-server-${code_server_version}-${code_server_flavor}

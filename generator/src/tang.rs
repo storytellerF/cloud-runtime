@@ -13,12 +13,13 @@ pub fn write(config: &versions::Config) {
         .expect("write failed");
     file.write_all(
         "
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-RUN source ~/.cargo/env
-RUN rustup override add nightly
-RUN rustup component add rust-src
-RUN cargo install bootimage
-RUN rustup component add llvm-tools-preview\n"
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+RUN . $HOME/.cargo/env
+RUN . $HOME/.cargo/env \\
+    && rustup override add nightly \\
+    && rustup component add rust-src \\
+    && cargo install bootimage \\
+    && rustup component add llvm-tools-preview\n"
             .as_bytes(),
     )
     .expect("write failed");
