@@ -40,6 +40,7 @@ ARG code_server_sub_path=bin/code-server
 #ARG code_server_executable=${code_server_parent}/${code_server_pack_name}/${code_server_sub_path}
 ARG code_server_executable=/usr/${code_server_sub_path}
 
+# 使用官方脚本安装更好，旧版本的安装方式禁用
 #code server
 #WORKDIR ${code_server_parent}
 #RUN curl -LO https://github.com/coder/code-server/releases/download/v${code_server_version}/${code_server_pack_name}.tar.gz
@@ -74,8 +75,9 @@ ARG {plugin_key}_version={plugin_version}
 ARG {plugin_key}_author={author_name}
 ARG {plugin_key}_artifact={plugin_name}
 ARG {plugin_key}_name=${plugin_key}_author.${plugin_key}_artifact-${{plugin_key}_version}.vsix
-RUN curl -LO https://open-vsx.org/api/${plugin_key}_author/${plugin_key}_artifact/${{plugin_key}_version}/file/${plugin_key}_name
-RUN ${code_server_executable} --install-extension /root/${plugin_key}_name
+RUN curl -LO https://open-vsx.org/api/${plugin_key}_author/${plugin_key}_artifact/${{plugin_key}_version}/file/${plugin_key}_name \\
+    && ${code_server_executable} --install-extension /root/${plugin_key}_name \\
+    && rm /root/${plugin_key}_name
 #安装{plugin_key}结束\n").replace("{plugin_key}", plugin_key).replace("{author_name}", author_name).replace("{plugin_name}", plugin_name).replace("{plugin_version}", plugin_version);
     // let bytes = str.into_bytes();
     // return Box::leak(bytes.into_boxed_slice());
