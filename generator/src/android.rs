@@ -8,7 +8,12 @@ mod common;
 use crate::versions;
 
 pub fn write(config: &versions::Config) {
-    let mut file = common::file_instance("../android-runtime/code-server-based/Dockerfile");
+    write_dockerfile(config, true, "code-server-based");
+    write_dockerfile(config, false, "default");
+}
+
+fn write_dockerfile(config: &versions::Config, add_coder_server: bool, dir: &str) {
+    let mut file = common::file_instance(format!("../android-runtime/{}/Dockerfile", dir).as_str());
     file.write_all(common::ubuntu(vec!["openjdk-17-jdk", "unzip"]))
         .expect("write failed");
     file.write_all(
@@ -36,10 +41,13 @@ RUN ls \\
 
 # Install libs so Android's AAPT2 will run on an arm64 arch
 RUN apt-get update && apt-get install -y libc6-amd64-cross libgcc1-amd64-cross && ln -s /usr/x86_64-linux-gnu/lib64/ /lib64
-ENV LD_LIBRARY_PATH=\"$LD_LIBRARY_PATH:/lib64:/usr/x86_64-linux-gnu/lib\"\n"
+ENV LD_LIBRARY_PATH=\"$LD_LIBRARY_PATH:/lib64:/usr/x86_64-linux-gnu/lib\"
+"
             .as_bytes(),
     )
     .expect("write failed");
-    file.write_all(coder::setup_coder(vec![], config).as_bytes())
-        .expect("write failed");
+    if add_coder_server {
+        file.write_all(coder::setup_coder(vec![], config).as_bytes())
+            .expect("write failed");
+    }
 }

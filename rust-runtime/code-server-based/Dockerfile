@@ -9,9 +9,9 @@ RUN mv sources.list sources.list.backup \
         && cp ${sourcesRaw}.$(uname -m | cut -c1) sources.list \
         && apt-get update && apt-get upgrade -y && apt-get install -y curl git vim \
         && apt-get install -y build-essential
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-RUN . ~/.cargo/env
-
+    RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    RUN . ~/.cargo/env
+    
 ARG code_server_parent=/usr/local
 ARG code_server_version=4.14.1
 ARG code_server_flavor=linux-arm64

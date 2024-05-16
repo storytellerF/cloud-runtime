@@ -1,0 +1,2 @@
+cd generator
+cargo run
