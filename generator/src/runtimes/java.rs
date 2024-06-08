@@ -1,11 +1,8 @@
 use std::io::Write;
 
-#[path = "coder.rs"]
-mod coder;
-#[path = "common.rs"]
-mod common;
-
 use crate::versions;
+use crate::coder;
+use crate::common;
 
 pub fn write(config: &versions::Config) {
     write_gradle(config, true, "code-server-based");
